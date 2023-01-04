@@ -26,7 +26,7 @@ const Chat = () => {
     }
   };
   const sendMessageBtn = (e) => {
-    socket.timeout(2000).emit("send_message", { msg, room }, addMyMessage);
+    socket.emit("send_message", { msg, room }, addMyMessage);
   };
 
   useEffect(() => {

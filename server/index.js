@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
   //소켓 io의 가장 큰 장점 c
 
   socket.on("send_message", (data, addMyMessage) => {
-    console.log(data)
+    console.log(data);
     socket.to(data.room).emit("receive_message", data.msg);
     addMyMessage(data.msg);
   });
