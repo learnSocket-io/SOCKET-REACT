@@ -74,19 +74,36 @@ io.on("connection", (socket) => {
   // });
 
   //3
-  socket.on("update item", (arg1, arg2, callback) => {
-    console.log(arg1); // 1
-    console.log(arg2); // {name: "updated"}
+  // socket.on("update item", (arg1, arg2, callback) => {
+  //   console.log(arg1); // 1
+  //   console.log(arg2); // {name: "updated"}
 
-    // 범용성의 차이가 있다. arg2['~~~'] 로 써야 더 넓은데 알아보기. 필수
-    arg2["name"] = "updated";
-    //arg2.name = "asdf";
+  //   // 범용성의 차이가 있다. arg2['~~~'] 로 써야 더 넓은데 알아보기. 필수
+  //   arg2["name"] = "updated";
+  //   //arg2.name = "asdf";
 
-    callback({
-      status: "ok",
-      arg2,
-    });
-  });
+  //   callback({
+  //     status: "ok",
+  //     arg2,
+  //   });
+  // });
+
+  //4  :: 이해 :: emit에 대해 client가  5초안에 응답을 하지 않으면, 요청을 만료시킴.
+  // socket.timeout(5000).emit("my-event", (err, response)=>{
+  //   if(err){
+
+  //   } else{
+  //     console.log(response)
+  //   }
+
+  // })
+
+  //5
+  socket.volatile.emit("hello", "might or might not be received");
+  --> 휘발성 이벤트
+  --> 깁노 연결이 준비되지 않은 경우 전송되지 않는 이벤트 이다.
+  
+
 
   //////////////////////////////////////////////////////////////////////
 

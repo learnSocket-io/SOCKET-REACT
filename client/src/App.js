@@ -60,12 +60,28 @@ const Chat = () => {
   // });
 
   //3
-  socket.emit("update item", "1", { name: "updated" }, (response) => {
-    console.log("ㅁㄴㅇㄻㄴㅇㄻ", response);
-    if (response.arg2.name == "updated") {
-      console.log(response.status); // ok
-    }
-  });
+  // socket.emit("update item", "1", { name: "updated" }, (response) => {
+  //   console.log("ㅁㄴㅇㄻㄴㅇㄻ", response);
+  //   if (response.arg2.name == "updated") {
+  //     console.log(response.status); // ok
+  //   }
+  // });
+
+
+  //4
+  // socket.on("my-event",  (response)=>{
+
+
+  // })
+
+
+  //6
+  
+
+
+
+
+
 
   //////////////////////////////////////////////////////////////////////
 
