@@ -1,25 +1,31 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
 // const Message = ({msgInfo}) => {
-const Message = ({msg}) => {
+const Message = ({ msg }) => {
   return (
     <div>
       {/* <img src={msgInfo.img} alt='프로필'/>
       <p>{msgInfo.msg}</p> */}
-      {msg.mine?
-        <StMyMsg><p>{msg.msg}</p><p>{msg.createdAt}</p></StMyMsg>
-      :
-        <StComment><p>{msg.msg}</p><p>{msg.createdAt}</p></StComment>      
-      }
+      {msg.mine ? (
+        <StMyMsg>
+          <div>{msg.msg}</div>
+          <div>{msg.createdAt}</div>
+        </StMyMsg>
+      ) : (
+        <StComment>
+          <div>{msg.msg}</div>
+          <div>{msg.createdAt}</div>
+        </StComment>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Message
-const StComment = styled.p`
+export default Message;
+const StComment = styled.div`
   text-align: left;
-`
-const StMyMsg = styled.p`
-  text-align: right ;
-`
+`;
+const StMyMsg = styled.div`
+  text-align: right;
+`;

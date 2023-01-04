@@ -42,7 +42,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("nickName", (nickname) => {
-    socket["nickName"] = nickname;
+    // const some = [...socket]
+    console.log(socket);
+    //socket["nickName"] = nickname;
   });
 });
 
@@ -52,7 +54,8 @@ server.listen(3001, () => {
 });
 
 //socket.id 값
-
+//settimeout , set interval
+// 게임화면 시간바 (백엔드에서 구현해야 시간오차가 없음)
 // 생각해보면 좋을것
 // 게임을 진행하면서 새로고침 이벤트 발생시 -> 어떻게 대처를 할 것인가.
 // 새로고침 이벤트를 발생한 사람이 방으로 나가진다면
