@@ -116,6 +116,7 @@ io.on("connection", (socket) => {
   //   // ...
   // });
 
+  //7
   // # socket.once(이벤트 이름, 리스너) // 일회성 리스너 기능을 추가함
   // # socket.off(이벤트 이름, 리스너) // 이벤트에 대한 리스너 배열에서 지정된 리스너를 삭제.
   // # socket.removeAllListeners( [eventName]) 모든 리스너 또는 지정된 eventName의 리스너를 제거한다.
@@ -123,6 +124,14 @@ io.on("connection", (socket) => {
   // socket.removeAllListeners("details");
   // // for all events
   // socket.removeAllListeners();
+
+
+  //8  :: 오류처리
+  // 현재 Socket.IO 라이브러리에는 오류 처리 기능이 내장되어 있지 않음.
+  // -> 수신기에서 발생할 수 있는 모든 오류를 잡아줘야함.
+  // https://socket.io/docs/v4/listening-to-events/#eventemitter-methods
+
+
 
   //////////////////////////////////////////////////////////////////////
 
