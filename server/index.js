@@ -24,14 +24,17 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   //   console.log(socket.id);
+
   socket["nickName"] = "익명";
+  //onAny에서 소켓을 따보면 이벤트에대한 정보를 찾기.
   socket.onAny((e) => {
+    //console.log(socket);
     console.log(`SocketEvent:${e}`);
   });
   //소켓 io의 가장 큰 장점 c
 
   socket.on("send_message", (data, addMyMessage) => {
-    console.log(data);
+    // console.log(data);
     socket.to(data.room).emit("receive_message", data.msg);
     addMyMessage(data.msg);
   });
@@ -42,10 +45,58 @@ io.on("connection", (socket) => {
   });
 
   socket.on("nickName", (nickname) => {
-    // const some = [...socket]
-    console.log(socket);
-    //socket["nickName"] = nickname;
+    socket["nickName"] = nickname;
+
+    // 전체 유저에서 필터링 필요. (io.sockets)
+    // console.log(io.sockets)
+    //socket ==> 내정보가 담겨있는 집합.
+    // console.log(socket);
+    // console.log("socket nick : ", socket.nickName);
+    // console.log("socketid : ", socket.id);
+    //
   });
+
+  //////////////////////////////////////////////////////////////////////
+  //연습구간
+  //1 socket.emit("hello", 1, "2", { 3: "4", 5: Buffer.from([6]) });
+
+  //2
+  // socket.on("update item", (arg1, arg2, callback) => {
+  //   console.log(arg1); // 1
+  //   console.log(arg2); // {name: "updated"}
+
+  //   //callback 함수에 인자가 안들어가는 이유가 뭘까요..?
+  //   if (arg2 == "updated") {
+  //     callback({
+  //       status: "ok",
+  //     });
+  //   }
+  // });
+
+  //3
+  socket.on("update item", (arg1, arg2, callback) => {
+    console.log(arg1); // 1
+    console.log(arg2); // {name: "updated"}
+
+    // 범용성의 차이가 있다. arg2['~~~'] 로 써야 더 넓은데 알아보기. 필수
+    arg2["name"] = "updated";
+    //arg2.name = "asdf";
+
+    callback({
+      status: "ok",
+      arg2,
+    });
+  });
+
+  //////////////////////////////////////////////////////////////////////
+
+  //귓속말을 하기 위한
+  // socket.on("whisper", (nickName, msg, addMyMessage) => {
+  //   const targetSoc = [...io.sockets.sockets];
+  //   const target = targetSoc.filter((el) => el[1].nickName === nickName);
+  //   if (target[0][0]) socket.to(target[0][0]).emit("receive_message", msg);
+  //   addMyMessage(msg);
+  // });
 });
 
 //http 연결시 3000으로 진행하기 때문에 다른 port 값을 지정한것?

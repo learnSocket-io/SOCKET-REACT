@@ -44,6 +44,31 @@ const Chat = () => {
     });
   }, [socket]);
 
+  //////////////////////////////////////////////////////////////////////
+  //연습구간
+
+  //1
+  // socket.on('hello', (arg1,arg2,arg3)=>{
+  //   console.log("num1",arg1)
+  //   console.log("num2",arg2)
+  //   console.log("num3",arg3)
+  // })
+
+  //2
+  // socket.emit("update item", "1", { name: "updated" }, (response) => {
+  //   console.log(response.status); // ok
+  // });
+
+  //3
+  socket.emit("update item", "1", { name: "updated" }, (response) => {
+    console.log("ㅁㄴㅇㄻㄴㅇㄻ", response);
+    if (response.arg2.name == "updated") {
+      console.log(response.status); // ok
+    }
+  });
+
+  //////////////////////////////////////////////////////////////////////
+
   return (
     <StWrapper>
       <input value={nickName} onChange={(e) => setNickName(e.target.value)} />
@@ -102,3 +127,21 @@ const StBtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+
+/*
+
+ const addMyMessage=(msg)=>{
+    const myMsg = {msg, mine:true, createdAt}
+    setMsgList((prev) => [...prev, myMsg]);
+    setMsg('')
+  }
+
+  const sendMessage = (e) => {
+    if(e.keyCode===13){
+      nickName?
+      socket.emit("whisper", nickName, msg, addMyMessage):
+      socket.emit("send_message", { msg, room },addMyMessage);
+    }
+  };
+
+  */
