@@ -9,24 +9,28 @@ const Chat = () => {
   // {room}
   // room을 props로 받도록 설정
   const room = 3;
-  
   const [msg, setMsg] = useState("");
   const [msgList, setMsgList] = useState([]);
   const [nickName, setNickName] = useState("");
+  const createdAt = new Date().toLocaleString();
+
+  const addMyMessage = (msg) => {
+    const myMsg = { msg, mine: true, createdAt };
+    setMsgList((prev) => [...prev, myMsg]);
+  };
 
   const sendMessage = (e) => {
+    //e.keycode === 13 :::: enter
     if (e.keyCode === 13) {
-      socket.emit("send_message", { msg, room });
-      setMsgList((prev) => [...prev, msg]);
+      socket.emit("send_message", { msg, room }, addMyMessage);
     }
   };
   const sendMessageBtn = (e) => {
-    socket.emit("send_message", { msg, room });
-    setMsgList((prev) => [...prev, msg]);
+    socket.timeout(2000).emit("send_message", { msg, room }, addMyMessage);
   };
 
   useEffect(() => {
-    //  socket.emit("nickname", nickName)
+    //  socket.emit("nickname", nickName) // 카카오 닉네임으로 소켓 설정하기
     socket.emit("join_room", room);
     return () => {
       socket.disconnect();
@@ -34,9 +38,9 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    socket.on("receive_message", (data) => {
-      console.log(data);
-      setMsgList((prev) => [...prev, data.msg]);
+    socket.on("receive_message", (msg) => {
+      const myMsg = { msg, mine: false, createdAt };
+      setMsgList((prev) => [...prev, myMsg]);
     });
   }, [socket]);
 
@@ -83,8 +87,7 @@ const StWrapper = styled.div`
 `;
 const StMsgContainer = styled.div`
   display: flex;
-  width: 90%;
-  margin: 0 auto;
+  width: 100%;
   height: 90%;
   overflow: auto;
   background-color: white;

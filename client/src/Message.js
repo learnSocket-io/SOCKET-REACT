@@ -7,7 +7,11 @@ const Message = ({msg}) => {
     <div>
       {/* <img src={msgInfo.img} alt='프로필'/>
       <p>{msgInfo.msg}</p> */}
-      <StComment>{msg}</StComment> 
+      {msg.mine?
+        <StMyMsg><p>{msg.msg}</p><p>{msg.createdAt}</p></StMyMsg>
+      :
+        <StComment><p>{msg.msg}</p><p>{msg.createdAt}</p></StComment>      
+      }
     </div>
   )
 }
@@ -15,4 +19,7 @@ const Message = ({msg}) => {
 export default Message
 const StComment = styled.p`
   text-align: left;
+`
+const StMyMsg = styled.p`
+  text-align: right ;
 `

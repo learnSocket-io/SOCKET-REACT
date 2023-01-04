@@ -23,33 +23,26 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  //onAny 모든 요청들
+  //   console.log(socket.id);
+  socket["nickName"] = "익명";
   socket.onAny((e) => {
     console.log(`SocketEvent:${e}`);
   });
-  //   console.log(socket.id);
+  //소켓 io의 가장 큰 장점 c
 
-  //소켓 io의 가장 큰 장점
-
-  socket.on("nickName", (nickname) => {
-    
-    socket["nickname"] = nickname;
-    console.log(socket["nickname"]);
-    
-  });
-
-  socket.on("send_message", (data, func) => {
-    
-    data['nickname'] = 'player'; //socket.nickname 필요
-    console.log("asdfasdfasdf",data)
-    
-    socket.to(data.room).emit("receive_message", data);
-    
-    //func(data.state);
+  socket.on("send_message", (data, addMyMessage) => {
+    console.log(data)
+    socket.to(data.room).emit("receive_message", data.msg);
+    addMyMessage(data.msg);
   });
 
   socket.on("join_room", (data) => {
     socket.join(data);
+    socket.to(data).emit("welcome", socket.nickname);
+  });
+
+  socket.on("nickName", (nickname) => {
+    socket["nickName"] = nickname;
   });
 });
 
@@ -58,6 +51,9 @@ server.listen(3001, () => {
   console.log("SErver is Listening");
 });
 
+//socket.id 값
 
-
-//내가 치는것과 남이 치는것. 구분
+// 생각해보면 좋을것
+// 게임을 진행하면서 새로고침 이벤트 발생시 -> 어떻게 대처를 할 것인가.
+// 새로고침 이벤트를 발생한 사람이 방으로 나가진다면
+// 이후 게임에 참여하고 있는 인원들에게 어떤 영향을 미칠것인지.
