@@ -125,13 +125,22 @@ io.on("connection", (socket) => {
   // // for all events
   // socket.removeAllListeners();
 
-
   //8  :: 오류처리
   // 현재 Socket.IO 라이브러리에는 오류 처리 기능이 내장되어 있지 않음.
   // -> 수신기에서 발생할 수 있는 모든 오류를 잡아줘야함.
   // https://socket.io/docs/v4/listening-to-events/#eventemitter-methods
 
-
+  //9 :: ROOM
+  // `join` 지정된 채널에 소켓을 구독하도록 호출 할 수 있다
+  //some room 리스너로 들어오는 user를 data값에 해당하는 room으로 join 한다.
+  //data값에 해당하는 room에 emit "welcome" 해준다.
+  // socket.on("some room", (data) => {
+  //   socket.join(data);
+  //   socket.to(data).emit("welcome", socket.nickname);
+  //   
+  //   이렇게 여러개의 방에도 한번에 msg 가능
+  //   socket.to("room1").to("room2").to("room3").emit("~~~~")
+  // });
 
   //////////////////////////////////////////////////////////////////////
 
