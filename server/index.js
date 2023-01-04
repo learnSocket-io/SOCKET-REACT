@@ -24,13 +24,18 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   //   console.log(socket.id);
- 
+
   socket["nickName"] = "익명";
-  //onAny에서 소켓을 따보면 이벤트에대한 정보를 찾기.
+  //socket.onAny==> 이벤트가 발생할 때 실행될 리스너를 추가
+  // 반대의 개념으로 socket.offAny( [리스너] ) :: 범용 리스너를 제거할 수 있음.
   socket.onAny((e) => {
+    console.log(socket.eventNames());
     //console.log(socket);
     //socket.eventNames() 에 리스들에 대한 정의가 배열로 저장됨.
     //console.log(socket.eventNames());
+
+    //이벤트 발생시 실행된 리스너의 정보 -> (e) 값을 출력.
+    //어떤 리스너를 실행시켰는지 확인 가능하다.
     console.log(`SocketEvent:${e}`);
   });
   //소켓 io의 가장 큰 장점 c
@@ -104,13 +109,12 @@ io.on("connection", (socket) => {
   // socket.volatile.emit("hello", "might or might not be received");
   // --> 휘발성 이벤트
   // --> 깁노 연결이 준비되지 않은 경우 전송되지 않는 이벤트 이다.
-  
 
   //6   :::: EventEmitter 이벤트 듣기 시작
   // # socket.on(이벤트 이름, 리스너)
-      // socket.on("details", (...args) => {
-      //   // ...
-      // });
+  // socket.on("details", (...args) => {
+  //   // ...
+  // });
 
   // # socket.once(이벤트 이름, 리스너) // 일회성 리스너 기능을 추가함
   // # socket.off(이벤트 이름, 리스너) // 이벤트에 대한 리스너 배열에서 지정된 리스너를 삭제.
@@ -119,9 +123,6 @@ io.on("connection", (socket) => {
   // socket.removeAllListeners("details");
   // // for all events
   // socket.removeAllListeners();
-
-
-  
 
   //////////////////////////////////////////////////////////////////////
 
