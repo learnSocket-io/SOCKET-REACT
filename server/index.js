@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
     console.log("asdfasdfasdf",data)
     
     socket.to(data.room).emit("receive_message", data);
-    
+    func();
     //func(data.state);
   });
 
