@@ -30,7 +30,7 @@ io.on("connection", (socket) => {
   socket.onAny((e) => {
     //console.log(socket);
     //socket.eventNames() 에 리스들에 대한 정의가 배열로 저장됨.
-    console.log(socket.eventNames());
+    //console.log(socket.eventNames());
     console.log(`SocketEvent:${e}`);
   });
   //소켓 io의 가장 큰 장점 c
@@ -112,9 +112,16 @@ io.on("connection", (socket) => {
       //   // ...
       // });
 
-  // # socket.once(이벤트 이름, 리스너)
+  // # socket.once(이벤트 이름, 리스너) // 일회성 리스너 기능을 추가함
+  // # socket.off(이벤트 이름, 리스너) // 이벤트에 대한 리스너 배열에서 지정된 리스너를 삭제.
+  // # socket.removeAllListeners( [eventName]) 모든 리스너 또는 지정된 eventName의 리스너를 제거한다.
+  // // for a specific event
+  // socket.removeAllListeners("details");
+  // // for all events
+  // socket.removeAllListeners();
 
 
+  
 
   //////////////////////////////////////////////////////////////////////
 
