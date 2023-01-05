@@ -68,8 +68,11 @@ const Chat = () => {
   // });
 
   //4
-  // socket.on("my-event",  (response)=>{
+  // socket.on("my-event"ㅌㅌ,  (response)=>{
   // })
+
+
+  //10
 
 
 

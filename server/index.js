@@ -26,7 +26,7 @@ io.on("connection", (socket) => {
   //   console.log(socket.id);
 
   socket["nickName"] = "익명";
-  //socket.onAny==> 이벤트가 발생할 때 실행될 리스너를 추가
+  // socket.onAny==> 이벤트가 발생할 때 실행될 리스너를 추가
   // 반대의 개념으로 socket.offAny( [리스너] ) :: 범용 리스너를 제거할 수 있음.
   socket.onAny((e) => {
     console.log(socket.eventNames());
@@ -137,10 +137,24 @@ io.on("connection", (socket) => {
   // socket.on("some room", (data) => {
   //   socket.join(data);
   //   socket.to(data).emit("welcome", socket.nickname);
-  //   
+  //
   //   이렇게 여러개의 방에도 한번에 msg 가능
   //   socket.to("room1").to("room2").to("room3").emit("~~~~")
   // });
+
+  //9 :: 현재 서버에 접속한 사용자 수 Count 하는 방법 두가지.
+  //  console.log(io.engine.clientsCount)
+  //  console.log(io.of("/").sockets.size);
+
+  //10 :: SocketJoin
+  //  모든 소켓인스턴스는 room1에 join한다.
+  //  io.socketsJoin("room1")
+  //
+  //  room1에 있는 모든 소켓인스턴스를 room2 와 room3에서 나가도록 한다.
+  //  io.in("room1").socketsLeave(["room2", "room3"])
+  //
+  //  theSocketId => 한 개의 socketId만 동작 하기도 가능하다.
+  //  io.in(theSocketId).socketsJoin("room1");
 
   //////////////////////////////////////////////////////////////////////
 
