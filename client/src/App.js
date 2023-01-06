@@ -71,9 +71,9 @@ const Chat = () => {
   // socket.on("my-event"ㅌㅌ,  (response)=>{
   // })
 
-
-  //10
-
+  //11 :: client 와 server 동일한 값을 갖는다.
+  // socket.on("connect", () => {
+  //  console.log(socket.id); )};// ojIckSD2jqNzOqIrAGzL
 
 
   //////////////////////////////////////////////////////////////////////

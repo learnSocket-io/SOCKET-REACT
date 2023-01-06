@@ -156,6 +156,13 @@ io.on("connection", (socket) => {
   //  theSocketId => 한 개의 socketId만 동작 하기도 가능하다.
   //  io.in(theSocketId).socketsJoin("room1");
 
+  //11  :: 20자리? 수의 자동으로 부여되는 Id 값을 꺼내준다.
+  //console.log(socket.id); //ojIckSD2jqNzOqIrAGzL
+  //
+  //  추가로 알면 좋은것. 이 id의 값은 다시 연결할 때마다 자동으로 생성된다.
+  //  (끊어지거나, 사용자가 페이지를 새로고침을 할 때도 마찬가지다)
+  //
+
   //////////////////////////////////////////////////////////////////////
 
   //귓속말을 하기 위한
