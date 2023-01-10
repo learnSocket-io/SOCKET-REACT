@@ -135,7 +135,7 @@ io.on("connection", (socket) => {
     let count = 0;
     let arr1 = [];
     for (let i = 0; count < 3; i++) {
-      const number = Math.floor(Math.random() * 12);
+      const number = Math.floor(Math.random() * 13);
       if (blackCardList[number] === null) {
         blackCardList[number] = userId;
         arr1 = [...arr1, { color: "black", value: number }];
@@ -145,7 +145,7 @@ io.on("connection", (socket) => {
 
     count = 0;
     for (let i = 0; count < 3; i++) {
-      number = Math.floor(Math.random() * 12);
+      number = Math.floor(Math.random() * 13);
 
       if (whiteCardList[number] === null) {
         whiteCardList[number] = userId;
