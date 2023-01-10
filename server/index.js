@@ -22,6 +22,40 @@ const io = new Server(server, {
   },
 });
 
+//변수 설정 부분
+const blackCardList = [
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+];
+const whiteCardList = [
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+];
+
 io.on("connection", (socket) => {
   //   console.log(socket.id);
 
@@ -61,6 +95,84 @@ io.on("connection", (socket) => {
     // console.log("socket nick : ", socket.nickName);
     // console.log("socketid : ", socket.id);
     //
+  });
+
+  //게임으로 들어가는 부분 test
+  socket.on("gameStart", (roomId, userId) => {
+    console.log("roomId console", roomId);
+    console.log("userId console", userId);
+    console.log("socket console", socket.id);
+    //요청하는 사람의 Id 잡기. 화상 소켓 채팅
+    socket["userId"] = socket.id;
+
+    console.log("socket.userId", socket.userId);
+    //console.log("socket.sids", socket.adapter.sids);
+    console.log("socket.adapter", io);
+    console.log("socket.adapter", io.sockets.adapter.rooms);
+
+    //카드를 분배하는 로직 필요
+
+    //백에서 어떤 값을 저장하고 있어야 하는가 req
+    // 카드들의 값, 그 카드가 어떤 userId의 소유인지.
+    // room에 해당하는 sids의 값
+    // 잔여 카드의 정보.
+
+    //client가 보고 싶어하는 값이 뭔가. res
+    // userId, sdis(게임, 채팅, 화상채팅), 보유 카드의 값
+
+    //roomId에 해당하는 유저들의 정보를 찾아서 되돌려준다.
+    // {nickname: "~~", chatSids: "일반채팅", videoSids:"화상채팅", card:[[],[]], black: 1  }
+  });
+
+  //첫 패를 선택하는 부분
+  socket.on("selectFirstCard", (userId, black) => {
+    console.log(userId); // userId
+    console.log(black); // black card의 수
+
+    //흰색 카드의 수 설정.
+    const whiteCard = 3 - Number(black);
+
+    let count = 0;
+    let arr1 = [];
+    for (let i = 0; count < 3; i++) {
+      const number = Math.floor(Math.random() * 12);
+      if (blackCardList[number] === null) {
+        blackCardList[number] = userId;
+        arr1 = [...arr1, { color: "black", value: number }];
+        count++;
+      }
+    }
+
+    count = 0;
+    for (let i = 0; count < 3; i++) {
+      number = Math.floor(Math.random() * 12);
+
+      if (whiteCardList[number] === null) {
+        whiteCardList[number] = userId;
+        arr1 = [...arr1, { color: "white", value: number }];
+        count++;
+      }
+    }
+
+    socket["card"] = arr1;
+
+    console.log(
+      socket.card
+        .sort((a, b) => a.value - b.value)
+        .sort((a, b) => {
+          if (a.value === b.value) {
+            if (a.color < b.color) return -1;
+            else if (b.color < a.color) return 1;
+            else return 0;
+          }
+        })
+    );
+
+    //userId가 있는 roomId 에도 뿌려줘야한다.
+    //마지막 함수를 통해서 param을 던져줘야한다.
+    // 한줄씩 가자.
+    // endstate 말고 구현이 먼저
+    // code가 이쁜건 나중에 리팩토링
   });
 
   //////////////////////////////////////////////////////////////////////

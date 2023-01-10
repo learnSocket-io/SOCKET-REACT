@@ -23,6 +23,7 @@ const Chat = () => {
     //e.keycode === 13 :::: enter
     if (e.keyCode === 13) {
       socket.emit("send_message", { msg, room }, addMyMessage);
+      socket.emit("selectFirstCard", { userId: 3 }, { black: 3 });
     }
   };
   const sendMessageBtn = (e) => {
@@ -74,7 +75,6 @@ const Chat = () => {
   //11 :: client 와 server 동일한 값을 갖는다.
   // socket.on("connect", () => {
   //  console.log(socket.id); )};// ojIckSD2jqNzOqIrAGzL
-
 
   //////////////////////////////////////////////////////////////////////
 
