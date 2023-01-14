@@ -12,6 +12,7 @@ const Chat = () => {
   const [msg, setMsg] = useState("");
   const [msgList, setMsgList] = useState([]);
   const [nickName, setNickName] = useState("");
+
   const createdAt = new Date().toLocaleString();
 
   const addMyMessage = (msg) => {
@@ -22,21 +23,39 @@ const Chat = () => {
   const sendMessage = (e) => {
     //e.keycode === 13 :::: enter
     if (e.keyCode === 13) {
-      socket.emit("send_message", { msg, room }, addMyMessage);
-      socket.emit("selectFirstCard", { userId: 3 }, { black: 3 });
+      //socket.emit("send_message", { msg, room }, addMyMessage);
+      // socket.emit("selectFirstCard", { userId: 1 }, { black: 2 }, addMyCard);
+      // socket.emit("selectFirstCard", { userId: 2 }, { black: 1 }, addMyCard);
+      // socket.emit("selectFirstCard", { userId: 3 }, { black: 3 }, addMyCard);
+      socket.emit("selectFirstCard", { userId: 4, black: 0, roomId: 3 });
     }
   };
   const sendMessageBtn = (e) => {
     socket.emit("send_message", { msg, room }, addMyMessage);
   };
 
+  const fn = () => {
+    console.log("a");
+  };
   useEffect(() => {
     //  socket.emit("nickname", nickName) // 카카오 닉네임으로 소켓 설정하기
-    socket.emit("join_room", room);
+    socket.emit("join_room", { roomId: 3, userId: 2, people: 3 }, fn);
+    socket.emit("join_room", { roomId: 3, userId: 3, people: 3 }, fn);
+    socket.emit("join_room", { roomId: 3, userId: 4, people: 3 }, fn);
     return () => {
       socket.disconnect();
     };
   }, []);
+
+  const hi = (data) => {
+    console.log(data);
+  };
+  useEffect(() => {
+    socket.on("gameStart", (some) => {
+      console.log(some);
+      socket.emit("getPlace", { roomId: 3, userId: 3, people: 3 }, hi);
+    });
+  });
 
   useEffect(() => {
     socket.on("receive_message", (msg) => {
