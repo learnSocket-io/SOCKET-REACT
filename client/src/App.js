@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-import styled from "styled-components";
+import styled, { withTheme } from "styled-components";
 import Message from "./Message";
 
-const socket = io.connect("http://localhost:3001");
+const socket = io.connect("localhost:3001");
 
 const Chat = () => {
   // {room}
@@ -19,7 +19,9 @@ const Chat = () => {
     const myMsg = { msg, mine: true, createdAt };
     setMsgList((prev) => [...prev, myMsg]);
   };
-
+  const fn = (a) => {
+    console.log(a);
+  };
   const sendMessage = (e) => {
     //e.keycode === 13 :::: enter
     if (e.keyCode === 13) {
@@ -27,33 +29,111 @@ const Chat = () => {
       // socket.emit("selectFirstCard", { userId: 1 }, { black: 2 }, addMyCard);
       // socket.emit("selectFirstCard", { userId: 2 }, { black: 1 }, addMyCard);
       // socket.emit("selectFirstCard", { userId: 3 }, { black: 3 }, addMyCard);
-      socket.emit("selectFirstCard", { userId: 4, black: 0, roomId: 3 });
+      //socket.emit("ready", { userID: 99, roomID: 102 });
+      socket.emit("test-line");
     }
   };
   const sendMessageBtn = (e) => {
-    socket.emit("send_message", { msg, room }, addMyMessage);
+    //socket.emit("first-draw", (0, 2, 0), addMyMessage);
   };
 
-  const fn = () => {
-    console.log("a");
+  const number1 = (e) => {
+    socket.emit("sql-read");
   };
+
+  const number2 = (e) => {
+    socket.emit("sql-update");
+  };
+
+  const number3 = (e) => {
+    socket.emit("sql-delete");
+  };
+  const join = (e) => {
+    socket.emit("joined", 3, 0, fn);
+  };
+  const join2 = (e) => {
+    socket.emit("joined", 4, 0, fn);
+  };
+  const ready = (e) => {
+    socket.emit("ready", 3, fn);
+  };
+  const ready2 = (e) => {
+    socket.emit("ready", 4, fn);
+  };
+  const firstdraw = (e) => {
+    socket.emit("first-draw", 3, 2, fn);
+  };
+  const firstdraw2 = (e) => {
+    socket.emit("first-draw", 4, 1, fn);
+  };
+  const colorSelectedBlack = (e) => {
+    socket.emit("color-selected", 3, "black", fn);
+  };
+  const colorSelectedWhite = (e) => {
+    socket.emit("color-selected", 4, "white", fn);
+  };
+
+  const guess = (e) => {
+    socket.emit("guess", 4, { index: 1, value: 3 });
+  };
+  const changeSecurity = (e) => {
+    socket.emit("select-card-as-security", 4, "white", 99);
+  };
+  const nextTurn = (e) => {
+    socket.emit("next-turn");
+  };
+  const placeJoker = (e) => {
+    socket.emit("place-joker", 3, );
+  };
+
   useEffect(() => {
     //  socket.emit("nickname", nickName) // 카카오 닉네임으로 소켓 설정하기
-    socket.emit("join_room", { roomId: 3, userId: 2, people: 3 }, fn);
-    socket.emit("join_room", { roomId: 3, userId: 3, people: 3 }, fn);
-    socket.emit("join_room", { roomId: 3, userId: 4, people: 3 }, fn);
+    socket.emit("you-joined", { userID: 99, roomID: 102 }, fn);
+    //socket.emit("ready-to-join", { userId: 0 }, fn);
     return () => {
       socket.disconnect();
     };
   }, []);
 
-  const hi = (data) => {
-    console.log(data);
-  };
   useEffect(() => {
-    socket.on("gameStart", (some) => {
-      console.log(some);
-      socket.emit("getPlace", { roomId: 3, userId: 3, people: 3 }, hi);
+    socket.on("game-start", () => {
+      console.log("game 스타트 콘솔");
+      // socket.emit("getPlace", { roomId: 3, userId: 3, people: 3 }, hi);
+    });
+  });
+
+  useEffect(() => {
+    socket.on("add-ready", (e) => {
+      console.log(e);
+      // socket.emit("getPlace", { roomId: 3, userId: 3, people: 3 }, hi);
+    });
+  });
+  useEffect(() => {
+    socket.on("draw-result", (e) => {
+      console.log(e);
+      // socket.emit("getPlace", { roomId: 3, userId: 3, people: 3 }, hi);
+    });
+  });
+  useEffect(() => {
+    socket.on("result-select", (e) => {
+      console.log(e);
+    });
+  });
+  useEffect(() => {
+    socket.on("result-joined", (e) => {
+      console.log(e);
+    });
+  });
+  useEffect(() => {
+    socket.on("result-guess", (a, b, c) => {
+      console.log(a);
+      console.log(b);
+      console.log(c);
+    });
+  });
+  useEffect(() => {
+    socket.on("next-gameinfo", (e) => {
+      console.log(e);
     });
   });
 
@@ -122,6 +202,20 @@ const Chat = () => {
         />
         <button onClick={sendMessageBtn}>Enter</button>
       </StBtnContainer>
+      <button onClick={number1}>read</button>
+      <button onClick={number2}>update</button>
+      <button onClick={number3}>delete</button>
+      <button onClick={join}>user3-join</button>
+      <button onClick={ready}>user-3ready</button>
+      <button onClick={firstdraw}>user3 firstdraw</button>
+      <button onClick={join2}>user4-join</button>
+      <button onClick={ready2}>user4-ready</button>
+      <button onClick={firstdraw2}>user4 firstdraw</button>
+      <button onClick={colorSelectedBlack}>color Black</button>
+      <button onClick={colorSelectedWhite}>color White</button>
+      <button onClick={guess}>guess</button>
+      <button onClick={changeSecurity}>changeSecurity</button>
+      <button onClick={nextTurn}>nextTurn</button>
     </StWrapper>
   );
 };
