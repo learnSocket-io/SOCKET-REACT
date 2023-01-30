@@ -1,9 +1,7 @@
-import "./App.css";
+import React, { useEffect, useState } from "react";
 import io from "socket.io-client";
-
 import styled, { withTheme } from "styled-components";
 import Message from "./Message";
-
 
 const socket = io.connect("localhost:3001");
 
@@ -14,9 +12,7 @@ const Chat = () => {
   const [msg, setMsg] = useState("");
   const [msgList, setMsgList] = useState([]);
   const [nickName, setNickName] = useState("");
-
   const createdAt = new Date().toLocaleString();
-
   const addMyMessage = (msg) => {
     const myMsg = { msg, mine: true, createdAt };
     setMsgList((prev) => [...prev, myMsg]);
@@ -85,7 +81,7 @@ const Chat = () => {
     socket.emit("next-turn");
   };
   const placeJoker = (e) => {
-    socket.emit("place-joker", 3, );
+    socket.emit("place-joker", 3);
   };
 
   useEffect(() => {
@@ -145,22 +141,18 @@ const Chat = () => {
       setMsgList((prev) => [...prev, myMsg]);
     });
   }, [socket]);
-
   //////////////////////////////////////////////////////////////////////
   //연습구간
-
   //1
   // socket.on('hello', (arg1,arg2,arg3)=>{
   //   console.log("num1",arg1)
   //   console.log("num2",arg2)
   //   console.log("num3",arg3)
   // })
-
   //2
   // socket.emit("update item", "1", { name: "updated" }, (response) => {
   //   console.log(response.status); // ok
   // });
-
   //3
   // socket.emit("update item", "1", { name: "updated" }, (response) => {
   //   console.log("ㅁㄴㅇㄻㄴㅇㄻ", response);
@@ -168,25 +160,20 @@ const Chat = () => {
   //     console.log(response.status); // ok
   //   }
   // });
-
   //4
   // socket.on("my-event"ㅌㅌ,  (response)=>{
   // })
-
   //11 :: client 와 server 동일한 값을 갖는다.
   // socket.on("connect", () => {
   //  console.log(socket.id); )};// ojIckSD2jqNzOqIrAGzL
-
   //////////////////////////////////////////////////////////////////////
-
-
   return (
-    <div className="App">
-      <input
-        onChange={(e) => {
-          setRoom(e.target.value);
+    <StWrapper>
+      <input value={nickName} onChange={(e) => setNickName(e.target.value)} />
+      <button
+        onClick={() => {
+          socket.emit("nickName", nickName);
         }}
-
       >
         닉네임 변경
       </button>
@@ -220,11 +207,9 @@ const Chat = () => {
       <button onClick={changeSecurity}>changeSecurity</button>
       <button onClick={nextTurn}>nextTurn</button>
     </StWrapper>
-
   );
-}
-
-
+};
+export default Chat;
 const StWrapper = styled.div`
   display: flex;
   width: 40%;
@@ -252,15 +237,12 @@ const StBtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
-
 /*
-
  const addMyMessage=(msg)=>{
     const myMsg = {msg, mine:true, createdAt}
     setMsgList((prev) => [...prev, myMsg]);
     setMsg('')
   }
-
   const sendMessage = (e) => {
     if(e.keyCode===13){
       nickName?
@@ -268,6 +250,4 @@ const StBtnContainer = styled.div`
       socket.emit("send_message", { msg, room },addMyMessage);
     }
   };
-
   */
-
