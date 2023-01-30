@@ -97,6 +97,7 @@ io.on("connection", (socket) => {
     //
   });
 
+
   //게임으로 들어가는 부분 test
   socket.on("gameStart", (roomId, userId) => {
     console.log("roomId console", roomId);
@@ -122,6 +123,7 @@ io.on("connection", (socket) => {
 
     //roomId에 해당하는 유저들의 정보를 찾아서 되돌려준다.
     // {nickname: "~~", chatSids: "일반채팅", videoSids:"화상채팅", card:[[],[]], black: 1  }
+
   });
 
   //첫 패를 선택하는 부분

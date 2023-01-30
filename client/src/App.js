@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import "./App.css";
 import io from "socket.io-client";
+
 import styled, { withTheme } from "styled-components";
 import Message from "./Message";
+
 
 const socket = io.connect("localhost:3001");
 
@@ -177,13 +179,14 @@ const Chat = () => {
 
   //////////////////////////////////////////////////////////////////////
 
+
   return (
-    <StWrapper>
-      <input value={nickName} onChange={(e) => setNickName(e.target.value)} />
-      <button
-        onClick={() => {
-          socket.emit("nickName", nickName);
+    <div className="App">
+      <input
+        onChange={(e) => {
+          setRoom(e.target.value);
         }}
+
       >
         닉네임 변경
       </button>
@@ -217,10 +220,10 @@ const Chat = () => {
       <button onClick={changeSecurity}>changeSecurity</button>
       <button onClick={nextTurn}>nextTurn</button>
     </StWrapper>
-  );
-};
 
-export default Chat;
+  );
+}
+
 
 const StWrapper = styled.div`
   display: flex;
@@ -267,3 +270,4 @@ const StBtnContainer = styled.div`
   };
 
   */
+
